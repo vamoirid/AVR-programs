@@ -1,0 +1,281 @@
+
+16.LED_dimmer_1sec.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001b2  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000226  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000004  00800060  00800060  00000226  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000226  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000258  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000028  00000000  00000000  00000294  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000005a6  00000000  00000000  000002bc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000529  00000000  00000000  00000862  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000262  00000000  00000000  00000d8b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000054  00000000  00000000  00000ff0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000030d  00000000  00000000  00001044  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000063  00000000  00000000  00001351  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000018  00000000  00000000  000013b4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__vector_10>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a4 36       	cpi	r26, 0x64	; 100
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 63 00 	call	0xc6	; 0xc6 <main>
+  74:	0c 94 d7 00 	jmp	0x1ae	; 0x1ae <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <__vector_10>:
+#include <avr/interrupt.h>
+
+volatile unsigned long int milliseconds = 0;
+
+ISR(TIMER0_COMP_vect)
+{
+  7c:	1f 92       	push	r1
+  7e:	0f 92       	push	r0
+  80:	0f b6       	in	r0, 0x3f	; 63
+  82:	0f 92       	push	r0
+  84:	11 24       	eor	r1, r1
+  86:	8f 93       	push	r24
+  88:	9f 93       	push	r25
+  8a:	af 93       	push	r26
+  8c:	bf 93       	push	r27
+	++milliseconds;
+  8e:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  92:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+  96:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <_edata+0x2>
+  9a:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <_edata+0x3>
+  9e:	01 96       	adiw	r24, 0x01	; 1
+  a0:	a1 1d       	adc	r26, r1
+  a2:	b1 1d       	adc	r27, r1
+  a4:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+  a8:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
+  ac:	a0 93 62 00 	sts	0x0062, r26	; 0x800062 <_edata+0x2>
+  b0:	b0 93 63 00 	sts	0x0063, r27	; 0x800063 <_edata+0x3>
+}
+  b4:	bf 91       	pop	r27
+  b6:	af 91       	pop	r26
+  b8:	9f 91       	pop	r25
+  ba:	8f 91       	pop	r24
+  bc:	0f 90       	pop	r0
+  be:	0f be       	out	0x3f, r0	; 63
+  c0:	0f 90       	pop	r0
+  c2:	1f 90       	pop	r1
+  c4:	18 95       	reti
+
+000000c6 <main>:
+
+
+int main(void)
+{
+	DDRD |= (1 << DDD5);                                     //Set PINB3 (OC0) as output
+  c6:	8d 9a       	sbi	0x11, 5	; 17
+	PORTD &= ~(1 << PORTD5);                                 //Clear PINB3
+  c8:	95 98       	cbi	0x12, 5	; 18
+	
+	//Timer0 use for counting milliseconds
+
+	TCCR0 |= (1 << CS01);                                    //Set a prescaler of 8
+  ca:	83 b7       	in	r24, 0x33	; 51
+  cc:	82 60       	ori	r24, 0x02	; 2
+  ce:	83 bf       	out	0x33, r24	; 51
+	TCCR0 |= (1 << WGM01);                                   //Enable CTC mode
+  d0:	83 b7       	in	r24, 0x33	; 51
+  d2:	88 60       	ori	r24, 0x08	; 8
+  d4:	83 bf       	out	0x33, r24	; 51
+	OCR0 = 125;                                              //Set a 1kHz clock at 1MHz AVR clock, with a prescaler of 8
+  d6:	8d e7       	ldi	r24, 0x7D	; 125
+  d8:	8c bf       	out	0x3c, r24	; 60
+	sei();                                                   //Enable global interrupts
+  da:	78 94       	sei
+	TIMSK |= (1 << OCIE0);                                    //Enable Compare interrupt for Timer0
+  dc:	89 b7       	in	r24, 0x39	; 57
+  de:	82 60       	ori	r24, 0x02	; 2
+  e0:	89 bf       	out	0x39, r24	; 57
+
+
+	//Timer1 use for 10-bit Fast PWM mode
+
+	TCCR1B |= (1 << CS11);                                   //Set a prescaler of 8
+  e2:	8e b5       	in	r24, 0x2e	; 46
+  e4:	82 60       	ori	r24, 0x02	; 2
+  e6:	8e bd       	out	0x2e, r24	; 46
+	TCCR1A |= ((1 << WGM10) | (1 << WGM11));                 //Enable 10-bit Fast PWM mode
+  e8:	8f b5       	in	r24, 0x2f	; 47
+  ea:	83 60       	ori	r24, 0x03	; 3
+  ec:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B |= (1 << WGM12);                                  //Remaining bits for enabling 10-bit Fast PWM
+  ee:	8e b5       	in	r24, 0x2e	; 46
+  f0:	88 60       	ori	r24, 0x08	; 8
+  f2:	8e bd       	out	0x2e, r24	; 46
+	OCR1A = 0;
+  f4:	1b bc       	out	0x2b, r1	; 43
+  f6:	1a bc       	out	0x2a, r1	; 42
+	TCCR1A |= (1 << COM1A1);                                 //Clear OC1A on Compare Match and set it on BOTTOM
+  f8:	8f b5       	in	r24, 0x2f	; 47
+  fa:	80 68       	ori	r24, 0x80	; 128
+  fc:	8f bd       	out	0x2f, r24	; 47
+
+	//int dutyCycle = 0;
+	
+	while(1)
+	{
+		TCNT0 = 0;
+  fe:	12 be       	out	0x32, r1	; 50
+		milliseconds = 0;
+ 100:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+ 104:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <_edata+0x1>
+ 108:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <_edata+0x2>
+ 10c:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <_edata+0x3>
+		OCR1A = 0;
+ 110:	1b bc       	out	0x2b, r1	; 43
+ 112:	1a bc       	out	0x2a, r1	; 42
+		TCNT1 = 0;
+ 114:	1d bc       	out	0x2d, r1	; 45
+ 116:	1c bc       	out	0x2c, r1	; 44
+
+		while (milliseconds < 1000)
+ 118:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 11c:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+ 120:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <_edata+0x2>
+ 124:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <_edata+0x3>
+ 128:	88 3e       	cpi	r24, 0xE8	; 232
+ 12a:	93 40       	sbci	r25, 0x03	; 3
+ 12c:	a1 05       	cpc	r26, r1
+ 12e:	b1 05       	cpc	r27, r1
+ 130:	90 f4       	brcc	.+36     	; 0x156 <main+0x90>
+		{
+			OCR1A += 8;
+ 132:	8a b5       	in	r24, 0x2a	; 42
+ 134:	9b b5       	in	r25, 0x2b	; 43
+ 136:	08 96       	adiw	r24, 0x08	; 8
+ 138:	9b bd       	out	0x2b, r25	; 43
+ 13a:	8a bd       	out	0x2a, r24	; 42
+		TCNT0 = 0;
+		milliseconds = 0;
+		OCR1A = 0;
+		TCNT1 = 0;
+
+		while (milliseconds < 1000)
+ 13c:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 140:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+ 144:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <_edata+0x2>
+ 148:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <_edata+0x3>
+ 14c:	88 3e       	cpi	r24, 0xE8	; 232
+ 14e:	93 40       	sbci	r25, 0x03	; 3
+ 150:	a1 05       	cpc	r26, r1
+ 152:	b1 05       	cpc	r27, r1
+ 154:	70 f3       	brcs	.-36     	; 0x132 <main+0x6c>
+		{
+			OCR1A += 8;
+		}
+		
+		milliseconds = 0;
+ 156:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+ 15a:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <_edata+0x1>
+ 15e:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <_edata+0x2>
+ 162:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <_edata+0x3>
+		TCNT0 = 0;
+ 166:	12 be       	out	0x32, r1	; 50
+		TCNT1 = 0;
+ 168:	1d bc       	out	0x2d, r1	; 45
+ 16a:	1c bc       	out	0x2c, r1	; 44
+
+		while (milliseconds < 1000)
+ 16c:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 170:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+ 174:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <_edata+0x2>
+ 178:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <_edata+0x3>
+ 17c:	88 3e       	cpi	r24, 0xE8	; 232
+ 17e:	93 40       	sbci	r25, 0x03	; 3
+ 180:	a1 05       	cpc	r26, r1
+ 182:	b1 05       	cpc	r27, r1
+ 184:	08 f0       	brcs	.+2      	; 0x188 <main+0xc2>
+ 186:	bb cf       	rjmp	.-138    	; 0xfe <main+0x38>
+		{
+			OCR1A -= 8;
+ 188:	8a b5       	in	r24, 0x2a	; 42
+ 18a:	9b b5       	in	r25, 0x2b	; 43
+ 18c:	08 97       	sbiw	r24, 0x08	; 8
+ 18e:	9b bd       	out	0x2b, r25	; 43
+ 190:	8a bd       	out	0x2a, r24	; 42
+		
+		milliseconds = 0;
+		TCNT0 = 0;
+		TCNT1 = 0;
+
+		while (milliseconds < 1000)
+ 192:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 196:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+ 19a:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <_edata+0x2>
+ 19e:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <_edata+0x3>
+ 1a2:	88 3e       	cpi	r24, 0xE8	; 232
+ 1a4:	93 40       	sbci	r25, 0x03	; 3
+ 1a6:	a1 05       	cpc	r26, r1
+ 1a8:	b1 05       	cpc	r27, r1
+ 1aa:	70 f3       	brcs	.-36     	; 0x188 <main+0xc2>
+ 1ac:	a8 cf       	rjmp	.-176    	; 0xfe <main+0x38>
+
+000001ae <_exit>:
+ 1ae:	f8 94       	cli
+
+000001b0 <__stop_program>:
+ 1b0:	ff cf       	rjmp	.-2      	; 0x1b0 <__stop_program>

@@ -1,0 +1,192 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	ProcessPressedButton
+  18               	ProcessPressedButton:
+  19               	.LFB7:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 8091 0000 		lds r24,pressed
+  25 0004 9091 0000 		lds r25,(pressed)+1
+  26 0008 892B      		or r24,r25
+  27 000a 01F4      		brne .L5
+  28               	.LM3:
+  29 000c 81E0      		ldi r24,lo8(1)
+  30 000e 90E0      		ldi r25,hi8(1)
+  31 0010 9093 0000 		sts (pressed)+1,r25
+  32 0014 8093 0000 		sts pressed,r24
+  33               	.LM4:
+  34 0018 42B3      		in r20,50-32
+  35 001a 2091 0000 		lds r18,LEDNumber
+  36 001e 3091 0000 		lds r19,(LEDNumber)+1
+  37 0022 022E      		mov r0,r18
+  38 0024 00C0      		rjmp 2f
+  39 0026 880F      	1:	lsl r24
+  40 0028 991F      		rol r25
+  41 002a 0A94      	2:	dec r0
+  42 002c 02F4      		brpl 1b
+  43 002e 482B      		or r20,r24
+  44 0030 42BB      		out 50-32,r20
+  45               	.LM5:
+  46 0032 2F5F      		subi r18,lo8(-(1))
+  47 0034 3F4F      		sbci r19,hi8(-(1))
+  48 0036 3093 0000 		sts (LEDNumber)+1,r19
+  49 003a 2093 0000 		sts LEDNumber,r18
+  50               	.LM6:
+  51 003e 2630      		cpi r18,6
+  52 0040 3105      		cpc r19,__zero_reg__
+  53 0042 04F0      		brlt .L5
+  54 0044 20E0      		ldi r18,lo8(0)
+  55 0046 30E0      		ldi r19,hi8(0)
+  56               	.LM7:
+  57 0048 7FEF      		ldi r23,lo8(-1)
+  58               	.LBB20:
+  59               	.LBB21:
+  60               	.LBB22:
+  61               	.LBB23:
+  62               	.LM8:
+  63 004a 40E2      		ldi r20,lo8(20000)
+  64 004c 5EE4      		ldi r21,hi8(20000)
+  65               	.LBE23:
+  66               	.LBE22:
+  67               	.LBE21:
+  68               	.LBE20:
+  69               	.LM9:
+  70 004e 60EC      		ldi r22,lo8(-64)
+  71 0050 00C0      		rjmp .L3
+  72               	.LVL0:
+  73               	.L4:
+  74               	.LM10:
+  75 0052 72BB      		out 50-32,r23
+  76               	.LBB27:
+  77               	.LBB26:
+  78               	.LBB25:
+  79               	.LBB24:
+  80               	.LM11:
+  81 0054 CA01      		movw r24,r20
+  82               	.LVL1:
+  83               	/* #APP */
+  84               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  85 0056 0197      		1: sbiw r24,1
+  86 0058 01F4      		brne 1b
+  87               	 ;  0 "" 2
+  88               	/* #NOAPP */
+  89               	.LBE24:
+  90               	.LBE25:
+  91               	.LBE26:
+  92               	.LBE27:
+  93               	.LM12:
+  94 005a 62BB      		out 50-32,r22
+  95               	.LBB28:
+  96               	.LBB29:
+  97               	.LBB30:
+  98               	.LBB31:
+  99               	.LM13:
+ 100 005c CA01      		movw r24,r20
+ 101               	.LVL2:
+ 102               	/* #APP */
+ 103               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 104 005e 0197      		1: sbiw r24,1
+ 105 0060 01F4      		brne 1b
+ 106               	 ;  0 "" 2
+ 107               	/* #NOAPP */
+ 108 0062 2F5F      		subi r18,lo8(-(1))
+ 109 0064 3F4F      		sbci r19,hi8(-(1))
+ 110               	.L3:
+ 111               	.LBE31:
+ 112               	.LBE30:
+ 113               	.LBE29:
+ 114               	.LBE28:
+ 115               	.LM14:
+ 116 0066 2A30      		cpi r18,10
+ 117 0068 3105      		cpc r19,__zero_reg__
+ 118 006a 04F0      		brlt .L4
+ 119 006c 3093 0000 		sts (i)+1,r19
+ 120 0070 2093 0000 		sts i,r18
+ 121               	.LM15:
+ 122 0074 80EC      		ldi r24,lo8(-64)
+ 123               	.LVL3:
+ 124 0076 82BB      		out 50-32,r24
+ 125               	.LM16:
+ 126 0078 1092 0000 		sts (LEDNumber)+1,__zero_reg__
+ 127 007c 1092 0000 		sts LEDNumber,__zero_reg__
+ 128               	.L5:
+ 129 0080 0895      		ret
+ 130               	.LFE7:
+ 132               	.global	main
+ 134               	main:
+ 135               	.LFB6:
+ 136               	.LM17:
+ 137               	/* prologue: function */
+ 138               	/* frame size = 0 */
+ 139               	.LM18:
+ 140 0082 8FE3      		ldi r24,lo8(63)
+ 141 0084 81BB      		out 49-32,r24
+ 142               	.LM19:
+ 143 0086 80EC      		ldi r24,lo8(-64)
+ 144 0088 82BB      		out 50-32,r24
+ 145               	.L10:
+ 146               	.LM20:
+ 147 008a 8699      		sbic 48-32,6
+ 148 008c 00C0      		rjmp .L7
+ 149               	.LM21:
+ 150 008e 0E94 0000 		call ProcessPressedButton
+ 151 0092 00C0      		rjmp .L10
+ 152               	.L7:
+ 153               	.LBB32:
+ 154               	.LBB33:
+ 155               	.LM22:
+ 156 0094 1092 0000 		sts (pressed)+1,__zero_reg__
+ 157 0098 1092 0000 		sts pressed,__zero_reg__
+ 158 009c 00C0      		rjmp .L10
+ 159               	.LBE33:
+ 160               	.LBE32:
+ 161               	.LFE6:
+ 163               	.global	ProcessReleasedButton
+ 165               	ProcessReleasedButton:
+ 166               	.LFB8:
+ 167               	.LM23:
+ 168               	/* prologue: function */
+ 169               	/* frame size = 0 */
+ 170               	.LM24:
+ 171 009e 1092 0000 		sts (pressed)+1,__zero_reg__
+ 172 00a2 1092 0000 		sts pressed,__zero_reg__
+ 173               	/* epilogue start */
+ 174               	.LM25:
+ 175 00a6 0895      		ret
+ 176               	.LFE8:
+ 178               	.global	pressed
+ 179               	.global	pressed
+ 180               		.section .bss
+ 183               	pressed:
+ 184 0000 0000      		.skip 2,0
+ 185               	.global	LEDNumber
+ 186               	.global	LEDNumber
+ 189               	LEDNumber:
+ 190 0002 0000      		.skip 2,0
+ 191               		.comm i,2,1
+ 232               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:2      *ABS*:0000003f __SREG__
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:3      *ABS*:0000003e __SP_H__
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:4      *ABS*:0000003d __SP_L__
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:5      *ABS*:00000034 __CCP__
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:18     .text:00000000 ProcessPressedButton
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:183    .bss:00000000 pressed
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:189    .bss:00000002 LEDNumber
+                            *COM*:00000002 i
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:134    .text:00000082 main
+C:\Users\VASILE~1\AppData\Local\Temp/cceaCw6a.s:165    .text:0000009e ProcessReleasedButton
+
+UNDEFINED SYMBOLS
+__do_clear_bss

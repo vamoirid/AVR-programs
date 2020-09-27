@@ -1,0 +1,130 @@
+
+11.LED_Blink_with_Interrupts.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000b6  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000010a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000010a  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000013c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  00000178  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000058f  00000000  00000000  000001a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000511  00000000  00000000  0000072f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000001f6  00000000  00000000  00000c40  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000048  00000000  00000000  00000e38  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000313  00000000  00000000  00000e80  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000049  00000000  00000000  00001193  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000018  00000000  00000000  000011dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 36 00 	jmp	0x6c	; 0x6c <__vector_7>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 48 00 	call	0x90	; 0x90 <main>
+  64:	0c 94 59 00 	jmp	0xb2	; 0xb2 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <__vector_7>:
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+ISR(TIMER1_COMPA_vect)
+{
+  6c:	1f 92       	push	r1
+  6e:	0f 92       	push	r0
+  70:	0f b6       	in	r0, 0x3f	; 63
+  72:	0f 92       	push	r0
+  74:	11 24       	eor	r1, r1
+  76:	8f 93       	push	r24
+  78:	9f 93       	push	r25
+	PORTB ^= (1 << PORTB0);                                          //Toggle PINB0
+  7a:	98 b3       	in	r25, 0x18	; 24
+  7c:	81 e0       	ldi	r24, 0x01	; 1
+  7e:	89 27       	eor	r24, r25
+  80:	88 bb       	out	0x18, r24	; 24
+}
+  82:	9f 91       	pop	r25
+  84:	8f 91       	pop	r24
+  86:	0f 90       	pop	r0
+  88:	0f be       	out	0x3f, r0	; 63
+  8a:	0f 90       	pop	r0
+  8c:	1f 90       	pop	r1
+  8e:	18 95       	reti
+
+00000090 <main>:
+
+int main(void)
+{
+	sei();                                                          //Enable global interrupts
+  90:	78 94       	sei
+    DDRB |= (1 << DDB0);                                            //Set PINB0 as output
+  92:	b8 9a       	sbi	0x17, 0	; 23
+	PORTB &= ~(1 << PORTB0);                                        //Set PINB0 to 0V reading 
+  94:	c0 98       	cbi	0x18, 0	; 24
+	TCCR1B |= (1 << WGM12);                                         //Configure timer in CTC mode
+  96:	8e b5       	in	r24, 0x2e	; 46
+  98:	88 60       	ori	r24, 0x08	; 8
+  9a:	8e bd       	out	0x2e, r24	; 46
+	TCCR1B |= ((1 << CS10) | (1 << CS11));                          //Set a prescale of 64
+  9c:	8e b5       	in	r24, 0x2e	; 46
+  9e:	83 60       	ori	r24, 0x03	; 3
+  a0:	8e bd       	out	0x2e, r24	; 46
+	OCR1A = 15624;                                                  //Set 1Hz cycle in 1MHz AVR clock with a prescaler at 64
+  a2:	88 e0       	ldi	r24, 0x08	; 8
+  a4:	9d e3       	ldi	r25, 0x3D	; 61
+  a6:	9b bd       	out	0x2b, r25	; 43
+  a8:	8a bd       	out	0x2a, r24	; 42
+	TIMSK |= (1 << OCIE1A);                                         //Enable CTC Interrupt
+  aa:	89 b7       	in	r24, 0x39	; 57
+  ac:	80 61       	ori	r24, 0x10	; 16
+  ae:	89 bf       	out	0x39, r24	; 57
+  b0:	ff cf       	rjmp	.-2      	; 0xb0 <main+0x20>
+
+000000b2 <_exit>:
+  b2:	f8 94       	cli
+
+000000b4 <__stop_program>:
+  b4:	ff cf       	rjmp	.-2      	; 0xb4 <__stop_program>
